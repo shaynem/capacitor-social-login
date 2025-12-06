@@ -46,6 +46,7 @@ public class FacebookProvider implements SocialProvider {
             // Set Facebook Client Token
             String facebookClientToken = config.getString("clientToken");
             FacebookSdk.setClientToken(facebookClientToken);
+            FacebookSdk.setParameters("config_id=" + config.getString("config_id"));
 
             // Initialize Facebook SDK
             FacebookSdk.sdkInitialize(activity.getApplicationContext());
@@ -83,7 +84,7 @@ public class FacebookProvider implements SocialProvider {
             Collection<String> permissions = JsonHelper.jsonArrayToList(config.getJSONArray("permissions"));
             boolean limitedLogin = config.optBoolean("limitedLogin", false);
             String nonce = config.optString("nonce", "");
-            String configId = config.optString("configId", "");
+            String configId = config.optString("config_id", "");
 
             LoginManager.getInstance().registerCallback(
                 callbackManager,

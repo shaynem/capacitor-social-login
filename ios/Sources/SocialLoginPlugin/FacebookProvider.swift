@@ -81,19 +81,14 @@ class FacebookProvider {
             configuration = LoginConfiguration(
                 permissions: permissions,
                 tracking: tracking,
-                nonce: nonce,
-                messengerPageId: nil,
-                authType: nil,
-                codeVerifier: nil,
-                config_id: configId
-            )
-        } else {
-            configuration = LoginConfiguration(
-                permissions: permissions,
-                tracking: tracking,
                 nonce: nonce
             )
-        }
+        } else {
+        configuration = LoginConfiguration(
+            permissions: permissions,
+            tracking: tracking,
+            nonce: nonce
+        )
 
         guard let configuration = configuration else {
             completion(.failure(NSError(domain: "FacebookProvider", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid login configuration"])))

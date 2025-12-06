@@ -5,7 +5,7 @@ declare const FB: {
   init(options: any): void;
   login(
     callback: (response: { status: string; authResponse: { accessToken: string; userID: string } }) => void,
-    options?: { scope: string },
+    options?: { scope?: string; config_id?: string },
   ): void;
   logout(callback: () => void): void;
   api(path: string, params: { fields: string }, callback: (response: any) => void): void;
@@ -41,8 +41,14 @@ export class FacebookSocialLogin extends BaseSocialLogin {
     }
 
     return new Promise((resolve, reject) => {
+      const loginOptions = {
+        scope: options.permissions.join(','),
+        config_id: options.config_id,
+      };
+      console.log('Facebook login options:', loginOptions);
       FB.login(
         (response) => {
+          console.log('Facebook login response:', response);
           if (response.status === 'connected') {
             FB.api('/me', { fields: 'id,name,email,picture' }, (userInfo: any) => {
               const result: FacebookLoginResponse = {
@@ -62,6 +68,7 @@ export class FacebookSocialLogin extends BaseSocialLogin {
                   location: null,
                   hometown: null,
                   profileURL: null,
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
                 },
                 idToken: null,
               };
@@ -71,7 +78,7 @@ export class FacebookSocialLogin extends BaseSocialLogin {
             reject(new Error('Facebook login failed'));
           }
         },
-        { scope: options.permissions.join(',') },
+        loginOptions,
       );
     });
   }

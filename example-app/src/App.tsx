@@ -52,7 +52,7 @@ interface FacebookConfigState {
   clientToken: string;
   permissions: string;
   limitedLogin: boolean;
-  configId: string;
+  config_id: string;
 }
 
 // Update the values below to pre-fill the form with your own defaults.
@@ -79,7 +79,7 @@ const facebookConfigDefaults: FacebookConfigState = {
   clientToken: '621ef94157c7a8e58a0343918e9b6615',
   permissions: 'email,public_profile',
   limitedLogin: false,
-  configId: '',
+  config_id: '',
 };
 
 const getErrorMessage = (error: unknown): string => {
@@ -307,7 +307,7 @@ function HomePage() {
         const facebookOptions: FacebookLoginOptions = {
           permissions: parsedFacebookPermissions.length > 0 ? parsedFacebookPermissions : ['email', 'public_profile'],
           limitedLogin: facebookConfig.limitedLogin,
-          configId: facebookConfig.configId || undefined,
+          config_id: facebookConfig.config_id || undefined,
         };
         options = facebookOptions;
       } else {
@@ -740,8 +740,8 @@ function HomePage() {
                       id="facebookConfigId"
                       type="text"
                       placeholder="your-config-id"
-                      value={facebookConfig.configId}
-                      onChange={(event) => updateFacebookConfig('configId', event.target.value)}
+                      value={facebookConfig.config_id}
+                      onChange={(event) => updateFacebookConfig('config_id', event.target.value)}
                       autoComplete="off"
                     />
                     <p className="hint">Facebook Config ID for Business Login.</p>

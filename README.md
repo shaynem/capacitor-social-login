@@ -660,7 +660,7 @@ Get the native Capacitor plugin version
 | **`permissions`**  | <code>string[]</code> | Permissions      |                    |
 | **`limitedLogin`** | <code>boolean</code>  | Is Limited Login | <code>false</code> |
 | **`nonce`**        | <code>string</code>   | Nonce            |                    |
-| **`configId`**     | <code>string</code>   | Facebook for Business Config ID        |                    |
+| **`config_id`**    | <code>string</code>   | Config ID        |                    |
 
 
 #### GoogleLoginOptions
@@ -790,9 +790,7 @@ Get the native Capacitor plugin version
 
 Construct a type with a set of properties K of type T
 
-<code>{
- [P in K]: T;
- }</code>
+<code>{ [P in K]: T; }</code>
 
 </docgen-api>
 

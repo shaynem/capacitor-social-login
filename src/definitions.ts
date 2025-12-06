@@ -199,7 +199,7 @@ export interface FacebookLoginOptions {
    * Config ID
    * @description A custom config id to use for the Facebook for business login request (iOS only)
    */
-  configId?: string;
+  config_id?: string;
 }
 
 export interface TwitterLoginOptions {
