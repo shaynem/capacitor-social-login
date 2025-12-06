@@ -52,6 +52,7 @@ interface FacebookConfigState {
   clientToken: string;
   permissions: string;
   limitedLogin: boolean;
+  configId: string;
 }
 
 // Update the values below to pre-fill the form with your own defaults.
@@ -78,6 +79,7 @@ const facebookConfigDefaults: FacebookConfigState = {
   clientToken: '621ef94157c7a8e58a0343918e9b6615',
   permissions: 'email,public_profile',
   limitedLogin: false,
+  configId: '',
 };
 
 const getErrorMessage = (error: unknown): string => {
@@ -222,7 +224,7 @@ function HomePage() {
 
     try {
       const initOptions: any = {};
-      
+
       if (selectedProvider === 'apple') {
         initOptions.apple = {
           clientId: appleConfig.clientId || undefined,
@@ -305,6 +307,7 @@ function HomePage() {
         const facebookOptions: FacebookLoginOptions = {
           permissions: parsedFacebookPermissions.length > 0 ? parsedFacebookPermissions : ['email', 'public_profile'],
           limitedLogin: facebookConfig.limitedLogin,
+          configId: facebookConfig.configId || undefined,
         };
         options = facebookOptions;
       } else {
@@ -312,7 +315,7 @@ function HomePage() {
       }
 
       let result: AppleProviderResponse | GoogleLoginResponse | FacebookLoginResponse;
-      
+
       if (provider === 'apple') {
         const response = await SocialLogin.login({
           provider: 'apple',
@@ -332,7 +335,7 @@ function HomePage() {
         });
         result = response.result;
       }
-      
+
       setLoginResponse(result);
       const providerNames: Record<Provider, string> = {
         apple: 'Apple',
@@ -363,7 +366,7 @@ function HomePage() {
       });
       const trackingResponse = response as FacebookRequestTrackingResponse;
       setTrackingStatus(trackingResponse.status);
-      
+
       const statusMessages: Record<FacebookRequestTrackingResponse['status'], string> = {
         authorized: 'Tracking permission granted ✅',
         denied: 'Tracking permission denied ❌',
@@ -436,7 +439,7 @@ function HomePage() {
 
     const calendarScope = 'https://www.googleapis.com/auth/calendar.readonly';
     const currentScopes = googleConfig.scopes.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
-    
+
     if (!currentScopes.includes(calendarScope)) {
       const newScopes = [...currentScopes, calendarScope].join(',');
       updateGoogleConfig('scopes', newScopes);
@@ -566,10 +569,10 @@ function HomePage() {
                 aria-label="Open Firebase page"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 600 600" fill="none">
-                  <path fill="#FF9100" d="M213.918 560.499c23.248 9.357 48.469 14.909 74.952 15.834 35.84 1.252 69.922-6.158 100.391-20.234-36.537-14.355-69.627-35.348-97.869-61.448-18.306 29.31-45.382 52.462-77.474 65.848Z"/>
-                  <path fill="#FFC400" d="M291.389 494.66c-64.466-59.622-103.574-145.917-100.269-240.568.108-3.073.27-6.145.46-9.216a166.993 166.993 0 0 0-36.004-5.241 167.001 167.001 0 0 0-51.183 6.153c-17.21 30.145-27.594 64.733-28.888 101.781-3.339 95.611 54.522 179.154 138.409 212.939 32.093-13.387 59.168-36.51 77.475-65.848Z"/>
-                  <path fill="#FF9100" d="M291.39 494.657c14.988-23.986 24.075-52.106 25.133-82.403 2.783-79.695-50.792-148.251-124.942-167.381-.19 3.071-.352 6.143-.46 9.216-3.305 94.651 35.803 180.946 100.269 240.568Z"/>
-                  <path fill="#DD2C00" d="M308.231 20.858C266 54.691 232.652 99.302 212.475 150.693c-11.551 29.436-18.81 61.055-20.929 94.2 74.15 19.13 127.726 87.686 124.943 167.38-1.058 30.297-10.172 58.39-25.134 82.404 28.24 26.127 61.331 47.093 97.868 61.447 73.337-33.9 125.37-106.846 128.383-193.127 1.952-55.901-19.526-105.724-49.875-147.778-32.051-44.477-159.5-194.36-159.5-194.36Z"/>
+                  <path fill="#FF9100" d="M213.918 560.499c23.248 9.357 48.469 14.909 74.952 15.834 35.84 1.252 69.922-6.158 100.391-20.234-36.537-14.355-69.627-35.348-97.869-61.448-18.306 29.31-45.382 52.462-77.474 65.848Z" />
+                  <path fill="#FFC400" d="M291.389 494.66c-64.466-59.622-103.574-145.917-100.269-240.568.108-3.073.27-6.145.46-9.216a166.993 166.993 0 0 0-36.004-5.241 167.001 167.001 0 0 0-51.183 6.153c-17.21 30.145-27.594 64.733-28.888 101.781-3.339 95.611 54.522 179.154 138.409 212.939 32.093-13.387 59.168-36.51 77.475-65.848Z" />
+                  <path fill="#FF9100" d="M291.39 494.657c14.988-23.986 24.075-52.106 25.133-82.403 2.783-79.695-50.792-148.251-124.942-167.381-.19 3.071-.352 6.143-.46 9.216-3.305 94.651 35.803 180.946 100.269 240.568Z" />
+                  <path fill="#DD2C00" d="M308.231 20.858C266 54.691 232.652 99.302 212.475 150.693c-11.551 29.436-18.81 61.055-20.929 94.2 74.15 19.13 127.726 87.686 124.943 167.38-1.058 30.297-10.172 58.39-25.134 82.404 28.24 26.127 61.331 47.093 97.868 61.447 73.337-33.9 125.37-106.846 128.383-193.127 1.952-55.901-19.526-105.724-49.875-147.778-32.051-44.477-159.5-194.36-159.5-194.36Z" />
                 </svg>
               </button>
               <button
@@ -580,7 +583,7 @@ function HomePage() {
                 style={{ background: '#3ECF8E' }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L2.203 9.681a.396.396 0 0 0 .39.639h9.006v8.959a.396.396 0 0 0 .716.233l9.081-9.517a.396.396 0 0 0-.234-.68z"/>
+                  <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L2.203 9.681a.396.396 0 0 0 .39.639h9.006v8.959a.396.396 0 0 0 .716.233l9.081-9.517a.396.396 0 0 0-.234-.68z" />
                 </svg>
               </button>
             </div>
@@ -730,6 +733,19 @@ function HomePage() {
                       Request App Tracking Transparency permission. This affects whether Facebook login returns access tokens (authorized) or JWT tokens (denied/notDetermined).
                     </p>
                   </div>
+
+                  <div className="field">
+                    <label htmlFor="facebookConfigId">Config ID (iOS only)</label>
+                    <input
+                      id="facebookConfigId"
+                      type="text"
+                      placeholder="your-config-id"
+                      value={facebookConfig.configId}
+                      onChange={(event) => updateFacebookConfig('configId', event.target.value)}
+                      autoComplete="off"
+                    />
+                    <p className="hint">Facebook Config ID for Business Login.</p>
+                  </div>
                 </>
               )}
             </>
@@ -760,8 +776,8 @@ function HomePage() {
                 autoComplete="off"
               />
               <p className="hint">
-                {isIOSMode 
-                  ? "Provide the iOS client ID from Google Developers Console." 
+                {isIOSMode
+                  ? "Provide the iOS client ID from Google Developers Console."
                   : "Provide the web client ID from Google Developers Console."}
               </p>
             </div>
@@ -785,8 +801,8 @@ function HomePage() {
                 autoComplete="off"
               />
               <p className="hint">
-                {selectedProvider === 'apple' 
-                  ? 'Leave blank on iOS if you do not need a redirect.' 
+                {selectedProvider === 'apple'
+                  ? 'Leave blank on iOS if you do not need a redirect.'
                   : 'Backend URL configured in Google Developers Console.'}
               </p>
             </div>

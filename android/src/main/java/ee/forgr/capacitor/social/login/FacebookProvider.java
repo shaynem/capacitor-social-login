@@ -83,6 +83,7 @@ public class FacebookProvider implements SocialProvider {
             Collection<String> permissions = JsonHelper.jsonArrayToList(config.getJSONArray("permissions"));
             boolean limitedLogin = config.optBoolean("limitedLogin", false);
             String nonce = config.optString("nonce", "");
+            String configId = config.optString("configId", "");
 
             LoginManager.getInstance().registerCallback(
                 callbackManager,
@@ -123,6 +124,9 @@ public class FacebookProvider implements SocialProvider {
             LoginManager loginManager = LoginManager.getInstance();
             if (limitedLogin) {
                 Log.w(LOG_TAG, "Limited login is not available for Android");
+            }
+            if (!configId.isEmpty()) {
+                Log.w(LOG_TAG, "configId is not available for Android");
             }
 
             loginManager.setLoginBehavior(LoginBehavior.NATIVE_WITH_FALLBACK);

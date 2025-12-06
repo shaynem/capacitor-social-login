@@ -195,6 +195,11 @@ export interface FacebookLoginOptions {
    * @description A custom nonce to use for the login request
    */
   nonce?: string;
+  /**
+   * Config ID
+   * @description A custom config id to use for the Facebook for business login request (iOS only)
+   */
+  configId?: string;
 }
 
 export interface TwitterLoginOptions {
@@ -394,39 +399,39 @@ export interface AppleProviderResponse {
 
 export type LoginOptions =
   | {
-      provider: 'facebook';
-      options: FacebookLoginOptions;
-    }
+    provider: 'facebook';
+    options: FacebookLoginOptions;
+  }
   | {
-      provider: 'google';
-      options: GoogleLoginOptions;
-    }
+    provider: 'google';
+    options: GoogleLoginOptions;
+  }
   | {
-      provider: 'apple';
-      options: AppleProviderOptions;
-    }
+    provider: 'apple';
+    options: AppleProviderOptions;
+  }
   | {
-      provider: 'twitter';
-      options: TwitterLoginOptions;
-    };
+    provider: 'twitter';
+    options: TwitterLoginOptions;
+  };
 
 export type LoginResult =
   | {
-      provider: 'facebook';
-      result: FacebookLoginResponse;
-    }
+    provider: 'facebook';
+    result: FacebookLoginResponse;
+  }
   | {
-      provider: 'google';
-      result: GoogleLoginResponse;
-    }
+    provider: 'google';
+    result: GoogleLoginResponse;
+  }
   | {
-      provider: 'apple';
-      result: AppleProviderResponse;
-    }
+    provider: 'apple';
+    result: AppleProviderResponse;
+  }
   | {
-      provider: 'twitter';
-      result: TwitterLoginResponse;
-    };
+    provider: 'twitter';
+    result: TwitterLoginResponse;
+  };
 
 export interface AccessToken {
   applicationId?: string;

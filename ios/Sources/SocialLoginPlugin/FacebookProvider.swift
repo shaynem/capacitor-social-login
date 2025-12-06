@@ -72,14 +72,30 @@ class FacebookProvider {
 
         let limitedLogin = payload["limitedLogin"] as? Bool ?? false
         let nonce = payload["nonce"] as? String ?? "123"
+        let configId = payload["configId"] as? String
 
         let tracking: LoginTracking = limitedLogin ? .limited : .enabled
 
-        guard let configuration = LoginConfiguration(
-            permissions: permissions,
-            tracking: tracking,
-            nonce: nonce
-        ) else {
+        let configuration: LoginConfiguration?
+        if let configId = configId {
+            configuration = LoginConfiguration(
+                permissions: permissions,
+                tracking: tracking,
+                nonce: nonce,
+                messengerPageId: nil,
+                authType: nil,
+                codeVerifier: nil,
+                config_id: configId
+            )
+        } else {
+            configuration = LoginConfiguration(
+                permissions: permissions,
+                tracking: tracking,
+                nonce: nonce
+            )
+        }
+
+        guard let configuration = configuration else {
             completion(.failure(NSError(domain: "FacebookProvider", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid login configuration"])))
             return
         }
