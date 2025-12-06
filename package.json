@@ -56,7 +56,8 @@
     "build:scripts": "tsc -p scripts/tsconfig.json",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@capacitor/android": "^7.0.0",
